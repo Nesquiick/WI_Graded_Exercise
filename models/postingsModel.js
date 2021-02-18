@@ -27,11 +27,13 @@ const PostingsModel = mongoose.model(
             type: Date,
             default:Date.now
         },
-        "posting_delevery_type":{
+        "posting_delevery_type":
+        {
             type: String,
             required: true
         },
-        "posting_images":{ // How do I say that I want an array of Strings ? of size 4 ?
+        "posting_images":
+        {
             type: Array,
             default: [],
             items : {
@@ -45,7 +47,7 @@ const PostingsModel = mongoose.model(
                 ]
             }
         },
-        "posting_seller": // is it how i say that my posting seller is an object that have a name and an email ?
+        "posting_seller":
         {
             type: Object,
             required: true,
