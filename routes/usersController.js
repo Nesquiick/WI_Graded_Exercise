@@ -3,6 +3,7 @@ const router = express.Router();
 const ObjectID = require('mongoose').Types.ObjectId;
 
 const {UsersModel}= require('../models/usersModel');
+const {PostingsModel}= require('../models/postingsModel');
 
 router.post('/', (req,res) => { //Create a user
     const newRecord = new UsersModel({
@@ -34,6 +35,32 @@ router.get('/:id', (req,res) => { //Get all the informations from a user
     })
 });
 
+router.post('/:id/postings', (req,res) => { //Create a user
+    const newRecord = new PostingsModel({
+        posting_title: req.body.posting_title,
+        posting_description: req.body.posting_description,
+        posting_category: req.body.posting_category,
+        posting_location:req.body.posting_location,
+        posting_price:req.body.posting_price,
+        posting_delevery_type:req.body.posting_delevery_type,
+        posting_images:req.body.posting_images,
+        posting_seller:{
+            seller_name:req.body.seller_name,
+            seller_email:req.body.seller_email
+        }
+    });
+
+    newRecord.save((err, docs) => {
+        if (!err) res.send(docs);
+        else 
+            console.log("Error creating new data : "+ err);
+            return res.status(400).send("Error, your email or your username may already be used");
+    });
+});
+
+module.exports = router;
+
+/*
 router.put('/:id', (req,res) => { //Update the user informations
     if (!ObjectID.isValid(req.params.id))
         return res.status(400).send("ID unknown : "+ req.params.id);
@@ -68,6 +95,4 @@ router.delete('/:id', (req,res) => { //Delete the user
             if (!err) res.send(docs);
             else console.log("Delete error : " + err);
     })
-});
-
-module.exports = router;
+});*/
