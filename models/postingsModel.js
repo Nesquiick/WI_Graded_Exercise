@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const PostingsModel = mongoose.model(
-    "API_graded_exercise",
+    "postings",
     {
         "posting_title" :{
             type: String,
@@ -51,7 +51,7 @@ const PostingsModel = mongoose.model(
         {
             type: Object,
             required: true,
-            required: ["seller_name","seller_email"],
+            required: ["seller_name","seller_email","seller_id"],
             properties : {
                 "seller_name":{
                     type: String
@@ -59,10 +59,12 @@ const PostingsModel = mongoose.model(
                 "seller_email":{
                     type: String
                 },
+                "seller_id":{
+                    type: Object
+                }
             }
         }
-    },
-    "postings"
+    }
 );
 
 module.exports = {PostingsModel};

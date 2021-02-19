@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ObjectID = require('mongoose').Types.ObjectId;
 
+
 const {UsersModel}= require('../models/usersModel');
 const {PostingsModel}= require('../models/postingsModel');
 
@@ -35,7 +36,14 @@ router.get('/:id', (req,res) => { //Get all the informations from a user
     })
 });
 
-router.post('/:id/postings', (req,res) => { //Create a user
+router.post('/:id/postings', (req,res) => { //Create a posting
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send("ID unknown : "+ req.params.id);
+
+    const seller_name = UsersModel.find({}, req.params.id).select('user_name');
+
+    const seller_email = UsersModel.find({}, req.params.id).select('user_email');
+    
     const newRecord = new PostingsModel({
         posting_title: req.body.posting_title,
         posting_description: req.body.posting_description,
@@ -45,16 +53,17 @@ router.post('/:id/postings', (req,res) => { //Create a user
         posting_delevery_type:req.body.posting_delevery_type,
         posting_images:req.body.posting_images,
         posting_seller:{
-            seller_name:req.body.seller_name,
-            seller_email:req.body.seller_email
+            seller_name: seller_name.user_name,
+            seller_email: seller_email.user_email,
+            seller_id: req.params.id
         }
     });
-
+    
     newRecord.save((err, docs) => {
         if (!err) res.send(docs);
         else 
             console.log("Error creating new data : "+ err);
-            return res.status(400).send("Error, your email or your username may already be used");
+            return res.status(400).send("Error creating new data");
     });
 });
 

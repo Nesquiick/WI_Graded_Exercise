@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const UsersModel = mongoose.model(
-    "API_graded_exercise",
+    "users",
     {
         "user_username" :{
             type: String,
@@ -29,8 +29,7 @@ const UsersModel = mongoose.model(
             type: String,
             required: true
         }
-    },
-    "users"
+    }
 );
 
 module.exports = {UsersModel};
