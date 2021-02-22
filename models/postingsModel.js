@@ -27,7 +27,7 @@ const PostingsModel = mongoose.model(
             type: Date,
             default:Date.now
         },
-        "posting_delevery_type":
+        "posting_delivery_type":
         {
             type: String,
             required: true
@@ -38,7 +38,6 @@ const PostingsModel = mongoose.model(
             default: [],
             items : {
                 type : String,
-                default :"",
                 examples : 
                 [
                     "./data/datatime/image1.jpg",
@@ -47,22 +46,17 @@ const PostingsModel = mongoose.model(
                 ]
             }
         },
-        "posting_seller":
-        {
-            type: Object,
-            required: true,
-            required: ["seller_name","seller_email","seller_id"],
-            properties : {
-                "seller_name":{
-                    type: String
-                },
-                "seller_email":{
-                    type: String
-                },
-                "seller_id":{
-                    type: Object
-                }
-            }
+        "seller_name":{
+            type: String,
+            required: true
+        },
+        "seller_email":{
+            type: String,
+            required: true
+        },
+        "seller_id":{
+            type: String,
+            required: true
         }
     }
 );

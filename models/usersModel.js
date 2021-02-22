@@ -3,11 +3,6 @@ const mongoose = require('mongoose');
 const UsersModel = mongoose.model(
     "users",
     {
-        "user_username" :{
-            type: String,
-            unique:true,
-            required: true
-        },
         "user_name":{
             type: String,
             required: true
