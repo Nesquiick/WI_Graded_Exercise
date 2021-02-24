@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.use('/users', usersRoutes);
 app.use('/postings', postingsRoutes);
 
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
 })

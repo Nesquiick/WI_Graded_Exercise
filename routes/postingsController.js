@@ -1,3 +1,5 @@
+// In this files the path for search the postings based on location, category and date is missing.
+
 const express = require('express');
 const router = express.Router();
 const ObjectID = require('mongoose').Types.ObjectId;
