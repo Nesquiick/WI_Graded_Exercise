@@ -13,6 +13,10 @@ mongoose.set('useFindAndModify', false);
 
 app.use(bodyParser.json());
 
+app.get('/', function(req, res) {
+  res.send("Welcome to My API, NOIRAUD Loreleï");
+});
+
 app.use('/users', usersRoutes);
 app.use('/postings', postingsRoutes);
 

@@ -1,3 +1,4 @@
+// This is the file that contain everything that a user can do
 const express = require('express');
 const router = express.Router();
 const ObjectID = require('mongoose').Types.ObjectId;
@@ -13,6 +14,107 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtSecretKey = require('../auth/jwt-key.json');
 // *** 
+
+// *** Upload Images
+var multer = require('multer');
+var cloudinary = require('cloudinary');
+var cloudinaryStorage = require('multer-storage-cloudinary');
+// Config cloudinary storage for multer-storage-cloudinary
+var storage = cloudinaryStorage.CloudinaryStorage({
+    cloudinary: cloudinary,
+    folder: 'api-images', // give cloudinary folder where you want to store images
+    allowedFormats: ['jpg', 'png'],
+  });
+var parser = multer({ storage: storage });
+// ***
+
+router.post(
+'/:id_user/postings/:id_post/upload', 
+parser.single('image'), //doesnt upload on cloudinary i don't know why
+passport.authenticate('jwt', { session: false }), 
+(req,res) => {
+    if (!ObjectID.isValid(req.params.id_user)){
+        return res.status(400).send("ID unknown : "+ req.params.id_user);
+    }else if (!ObjectID.isValid(req.params.id_post)){
+        return res.status(400).send("ID unknown : "+ req.params.id_post);
+    }else {
+        function getPostingOwner(post_id, user_id){
+            const query_post_owner = PostingsModel.findOne({ _id: post_id, seller_id: user_id });
+            return query_post_owner;
+        }
+        const query_owner = getPostingOwner(req.params.id_post,req.params.id_user);
+        query_owner.exec(function (err,post){
+            if(err) {
+                console.log("Error : "+ err);
+            }
+            else if (!post) {
+                return res.status(404).send("Posting not found, or you sure it is this user that post it ?");
+            }
+            else {
+                if(req.user.id==req.params.id_user){
+                    
+                    if(post.posting_images.length==0){
+                        const array= "https://res.cloudinary.com/hros8ekbx/image/upload/v1614188210/api-images/"+req.file.originalname;
+                        const updateRecord = {
+                            posting_title: post.posting_title,
+                            posting_description: post.posting_description,
+                            posting_category: post.posting_category,
+                            posting_location: post.posting_location,
+                            posting_price: post.posting_price,
+                            posting_delivery_type: post.posting_delivery_type,
+                            posting_images: array,
+                            seller_name: req.user.name, 
+                            seller_email: req.user.email,
+                            seller_id: req.user.id
+                        };
+                        PostingsModel.findByIdAndUpdate(
+                            req.params.id_post,
+                            {$set: updateRecord},
+                            {new: true},
+                            (err, docs) => {
+                                if (!err) {
+                                    return res.status(200).send("Posting succesfully updated : "+ req.params.id_post);
+                                }else {
+                                    return res.status(304).send("Posting not modified : "+ req.params.id_post +", reason : "+err);
+                                }
+                            }
+                        )
+                    }else{
+                        //doesn't work ..
+                        const array= post.posting_images.push("https://res.cloudinary.com/hros8ekbx/image/upload/v1614188210/api-images/"+req.file.originalname);
+                        const updateRecord = {
+                            posting_title: post.posting_title,
+                            posting_description: post.posting_description,
+                            posting_category: post.posting_category,
+                            posting_location: post.posting_location,
+                            posting_price: post.posting_price,
+                            posting_delivery_type: post.posting_delivery_type,
+                            posting_images: array,
+                            seller_name: req.user.name, 
+                            seller_email: req.user.email,
+                            seller_id: req.user.id
+                        };
+                        PostingsModel.findByIdAndUpdate(
+                            req.params.id_post,
+                            {$set: updateRecord},
+                            {new: true},
+                            (err, docs) => {
+                                if (!err) {
+                                    return res.status(200).send("Posting succesfully updated : "+ req.params.id_post);
+                                }else {
+                                    return res.status(304).send("Posting not modified : "+ req.params.id_post +", reason : "+err);
+                                }
+                            }
+                        )
+                    }
+                }else{
+                    return res.status(401).send("Unauthorized");
+                }
+            }
+        });
+    }
+});
+                    
 
 /* Create a user with postman :
 {
@@ -153,6 +255,7 @@ passport.authenticate('jwt', { session: false }),
                 posting_location: req.body.posting_location,
                 posting_price: req.body.posting_price,
                 posting_delivery_type: req.body.posting_delivery_type,
+                posting_images: [],
                 seller_name: req.user.name, 
                 seller_email: req.user.email,
                 seller_id: req.user.id.toString()
