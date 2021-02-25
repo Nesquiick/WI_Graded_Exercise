@@ -6,8 +6,8 @@ require('./models/dbConfig');
 const usersRoutes = require('./routes/usersController')
 const postingsRoutes = require('./routes/postingsController')
 const mongoose = require('mongoose');
-const port = 3000;
 
+app.set('port', (process.env.PORT || 80));
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
 
@@ -45,6 +45,6 @@ app.use('/users', usersRoutes);
 app.use('/postings', postingsRoutes);
 
 
-app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`)
-})
+app.listen(app.get('port'), function() {
+  console.log('App is running on port',app.get('port'));
+});
