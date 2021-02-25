@@ -1,6 +1,6 @@
 {
-  "name": "gradedexercise_v2",
-  "version": "2.0.0",
+  "name": "gradedexercise_v7",
+  "version": "7.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "cloudinary": "^1.25.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.4",
     "mongoose": "^5.11.15",
     "multer": "^1.4.2",
     "multer-storage-cloudinary": "^4.0.0",

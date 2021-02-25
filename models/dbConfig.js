@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const uri = "mongodb+srv://dbUserLN:dbUserLNmdp@graded-exercise-cluster.05bgr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 mongoose.connect(
-    "mongodb://localhost:27017/API_graded_exercise", 
+    uri,
     { useNewUrlParser : true, useUnifiedTopology: true},
     (err) => {
         if (!err) 

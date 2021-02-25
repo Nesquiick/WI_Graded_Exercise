@@ -1,12 +1,13 @@
 // This is the file that contain everything that a user can do
-const express = require('express');
-const router = express.Router();
-const ObjectID = require('mongoose').Types.ObjectId;
-const bcrypt = require('bcryptjs'); //new module for hashing
+const express = require('express'); // express
+const router = express.Router(); // router
+const ObjectID = require('mongoose').Types.ObjectId; //module for the database
+const bcrypt = require('bcryptjs'); // module for hashing
 
-
+// *** Schemas & models
 const {PostingsModel}= require('../models/postingsModel');
 const {UsersModel}= require('../models/usersModel');
+// ***
 
 // *** Authentication 
 require('../auth/auth');
@@ -18,21 +19,33 @@ const jwtSecretKey = require('../auth/jwt-key.json');
 // *** Upload Images
 var multer = require('multer');
 var cloudinary = require('cloudinary');
+cloudinary.config({ 
+    cloud_name: "hros8ekbx", 
+    api_key: 216132947267715,
+    api_secret: "5EfTBvLVtVTCU6MzefuUZxnzvxg"
+});
 var cloudinaryStorage = require('multer-storage-cloudinary');
 // Config cloudinary storage for multer-storage-cloudinary
-var storage = cloudinaryStorage.CloudinaryStorage({
+var storage = cloudinaryStorage.createCloudinaryStorage({
     cloudinary: cloudinary,
-    folder: 'api-images', // give cloudinary folder where you want to store images
+    folder: "api-images", // give cloudinary folder where you want to store images
     allowedFormats: ['jpg', 'png'],
   });
 var parser = multer({ storage: storage });
 // ***
 
-router.post(
-'/:id_user/postings/:id_post/upload', 
+router.post('/upload', parser.single('image'), function (req, res) {
+    console.log(req.file);
+    res.status(201);
+    res.json(req.file);
+});
+
+/*router.post(
+'/:id_user/postings/:id_post/upload',
+//passport.authenticate('jwt', { session: false }),
 parser.single('image'), //doesnt upload on cloudinary i don't know why
-passport.authenticate('jwt', { session: false }), 
 (req,res) => {
+    console.log("ici");
     if (!ObjectID.isValid(req.params.id_user)){
         return res.status(400).send("ID unknown : "+ req.params.id_user);
     }else if (!ObjectID.isValid(req.params.id_post)){
@@ -51,10 +64,12 @@ passport.authenticate('jwt', { session: false }),
                 return res.status(404).send("Posting not found, or you sure it is this user that post it ?");
             }
             else {
-                if(req.user.id==req.params.id_user){
+                //if(req.user.id==req.params.id_user){
                     
                     if(post.posting_images.length==0){
-                        const array= "https://res.cloudinary.com/hros8ekbx/image/upload/v1614188210/api-images/"+req.file.originalname;
+                        console.log("là");
+                        const array= cloudinary.url(req.file.originalname);
+                        console.log("là ici");
                         const updateRecord = {
                             posting_title: post.posting_title,
                             posting_description: post.posting_description,
@@ -81,7 +96,10 @@ passport.authenticate('jwt', { session: false }),
                         )
                     }else{
                         //doesn't work ..
-                        const array= post.posting_images.push("https://res.cloudinary.com/hros8ekbx/image/upload/v1614188210/api-images/"+req.file.originalname);
+                        console.log("là là");
+                        console.log(post.posting_images);
+                        const array= post.posting_images.push(cloudinary.url(req.file.originalname));
+                        console.log("là là là");
                         const updateRecord = {
                             posting_title: post.posting_title,
                             posting_description: post.posting_description,
@@ -107,13 +125,13 @@ passport.authenticate('jwt', { session: false }),
                             }
                         )
                     }
-                }else{
-                    return res.status(401).send("Unauthorized");
-                }
+                // }else{
+                //     return res.status(401).send("Unauthorized");
+                // }
             }
         });
     }
-});
+});*/
                     
 
 /* Create a user with postman :

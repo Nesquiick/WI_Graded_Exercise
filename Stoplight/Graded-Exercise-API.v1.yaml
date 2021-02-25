@@ -1,0 +1,1098 @@
+openapi: 3.0.0
+info:
+  title: Graded Exercise API
+  version: '1.0'
+  contact:
+    name: Noiraud Loreleï
+  description: API which primary function is to serve as a platform for selling and buying used items. An example of this in Finland would be Tori.fi or globally ebay.com.
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user.
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  user_name:
+                    type: string
+                    minLength: 1
+                    description: Full name of the user
+                  user_date_birth:
+                    type: string
+                    minLength: 1
+                    format: date-time
+                    description: User's date of birth
+                  user_address:
+                    type: string
+                    minLength: 1
+                    description: User's address
+                  user_email:
+                    type: string
+                    minLength: 1
+                    format: email
+                    example: john@demo.com
+                    description: user's email address
+                  user_password:
+                    type: string
+                    minLength: 1
+                    format: password
+                    example: password_123
+                    description: user's password
+                required:
+                  - user_name
+                  - user_date_birth
+                  - user_address
+                  - user_email
+                  - user_password
+        '404':
+          description: User Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+  /users:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    minLength: 1
+                    format: uuid
+                    description: The id assigned to the connected user (uuid format)
+                required:
+                  - user_id
+        '400':
+          description: Missing Required Information
+        '418':
+          description: User whith that username already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                user_name:
+                  type: string
+                  minLength: 1
+                  description: First and family name of the user
+                user_date_birth:
+                  type: string
+                  minLength: 1
+                  description: User's date of birth in RFC3339 format
+                user_address:
+                  type: string
+                  minLength: 1
+                  description: User's physical address
+                user_email:
+                  type: string
+                  minLength: 1
+                  format: email
+                  example: john@demo.com
+                  description: Valid email adress of the user
+                user_password:
+                  type: string
+                  minLength: 1
+                  format: password
+                  example: password_123
+                  description: Valid password of the user
+              required:
+                - user_name
+                - user_date_birth
+                - user_address
+                - user_email
+                - user_password
+            examples:
+              example:
+                value:
+                  user_username: jon29
+                  user_name: John Doe
+                  user_date_birth: '2000-01-24T01:30:36'
+                  user_address: 'Tutkijantie 2, Oulu, Finland'
+                  user_email: john@demo.com
+                  user_password: password_123
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+    parameters: []
+  /users/login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    minLength: 1
+                    format: uuid
+                    example: 6a318be8-efae-4104-af4f-e662786142bb
+                    description: The id assigned to the connected user
+                required:
+                  - user_id
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: Connect a user into the system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                user_email:
+                  type: string
+                  minLength: 1
+                  example: jon29@gmail.com
+                  description: Valid username of a user
+                  format: email
+                user_password:
+                  type: string
+                  minLength: 1
+                  format: password
+                  example: password_123
+                  description: Valid password of a user
+              required:
+                - user_email
+                - user_password
+        description: ''
+    parameters: []
+  '/users/{user_id}/postings':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-users-user_id-postings
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  posting_id:
+                    type: string
+                    minLength: 1
+                    format: uuid
+                    example: 6a358be8-efae-4104-ad4f-e662786142bb
+                    description: Id of the posting
+                required:
+                  - posting_id
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                posting_title:
+                  type: string
+                  minLength: 1
+                  description: Title of the posting
+                posting_description:
+                  type: string
+                  minLength: 1
+                  description: Description of the posting
+                posting_category:
+                  type: string
+                  minLength: 1
+                  description: Category of the posting
+                posting_location:
+                  type: string
+                  minLength: 1
+                  description: Location of the item
+                posting_price:
+                  type: number
+                  minimum: 0
+                  description: Asking price of the item
+                posting_date:
+                  type: string
+                  minLength: 1
+                  format: date-time
+                  description: Post date of the posting
+                posting_delivery_type:
+                  type: string
+                  minLength: 1
+                  enum:
+                    - Shipping
+                    - PickUp
+                  description: Delivery type for the item
+                posting_images:
+                  type: array
+                  uniqueItems: true
+                  minItems: 0
+                  maxItems: 3
+                  description: Array of strings which are the path for the images
+                  items:
+                    type: string
+                seller_name:
+                  type: string
+                  minLength: 1
+                  description: Full name of the seller
+                seller_email:
+                  type: string
+                  minLength: 1
+                  format: email
+                  description: Email address of the seller
+                seller_id:
+                  type: string
+                  minLength: 1
+                  format: uuid
+                  description: ID of the seller
+              required:
+                - posting_title
+                - posting_description
+                - posting_category
+                - posting_location
+                - posting_price
+                - posting_date
+                - posting_delivery_type
+                - posting_images
+                - seller_name
+                - seller_email
+                - seller_id
+      description: Add a new item that the user sell.
+    get:
+      summary: ''
+      operationId: get-users-user_id-postings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  posting_title:
+                    type: string
+                    minLength: 1
+                    description: Title of the posting
+                  posting_description:
+                    type: string
+                    minLength: 1
+                    description: Description of the posting
+                  posting_category:
+                    type: string
+                    minLength: 1
+                    description: Category of the posting
+                    enum:
+                      - Books
+                      - Electronics
+                      - Clothes
+                      - home
+                      - Games
+                      - Art
+                      - Jewelry
+                  posting_location:
+                    type: string
+                    minLength: 1
+                    description: Location of the selling item
+                  posting_price:
+                    type: number
+                    minimum: 0
+                    description: Asking price by the seller for the item
+                  posting_date:
+                    type: string
+                    minLength: 1
+                    format: date-time
+                    description: Post date of the posting
+                  posting_delivery_type:
+                    type: string
+                    minLength: 1
+                    enum:
+                      - Shipping
+                      - PickUp
+                    description: Delivery type for the item
+                  posting_images:
+                    type: array
+                    uniqueItems: true
+                    minItems: 0
+                    maxItems: 3
+                    description: Array of string which are the path for images
+                    items:
+                      type: string
+                  seller_name:
+                    type: string
+                    minLength: 1
+                    description: Name of the seller
+                  seller_email:
+                    type: string
+                    minLength: 1
+                    format: email
+                    description: Email of the seller
+                  seller_id:
+                    type: string
+                    minLength: 1
+                    format: uuid
+                    description: Id of the seller
+                required:
+                  - posting_title
+                  - posting_description
+                  - posting_category
+                  - posting_location
+                  - posting_price
+                  - posting_date
+                  - posting_delivery_type
+                  - posting_images
+                  - seller_name
+                  - seller_email
+                  - seller_id
+      description: Get all the posting(s) of a user
+  '/users/{user_id}/postings/{posting_id}':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: posting_id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  posting_title:
+                    type: string
+                    minLength: 1
+                    description: Title of the posting
+                  posting_description:
+                    type: string
+                    minLength: 1
+                    description: Description of the posting
+                  posting_category:
+                    type: string
+                    minLength: 1
+                    description: Category of the posting
+                  posting_location:
+                    type: string
+                    minLength: 1
+                    description: Location of the item
+                  posting_price:
+                    type: number
+                    minimum: 0
+                    description: Asking price for the item
+                  posting_date:
+                    type: string
+                    minLength: 1
+                    format: date-time
+                    description: Post date of the posting
+                  posting_delivery_type:
+                    type: string
+                    minLength: 1
+                    enum:
+                      - Shipping
+                      - PickUp
+                    description: Delivery type for the item
+                  posting_images:
+                    type: array
+                    uniqueItems: true
+                    minItems: 0
+                    maxItems: 3
+                    description: Arrays of string which are the path of the images
+                    items:
+                      type: string
+                  seller_name:
+                    type: string
+                    minLength: 1
+                    description: Full name of the seller
+                  seller_email:
+                    type: string
+                    minLength: 1
+                    format: email
+                    description: Email address of the seller
+                  seller_id:
+                    type: string
+                    minLength: 1
+                    format: uuid
+                    description: ID of the seller
+                required:
+                  - posting_title
+                  - posting_description
+                  - posting_category
+                  - posting_location
+                  - posting_price
+                  - posting_date
+                  - posting_delivery_type
+                  - posting_images
+                  - seller_name
+                  - seller_email
+                  - seller_id
+              examples: {}
+          headers: {}
+        '404':
+          description: Not Found
+      operationId: get-users-user_id-postings-posting_id
+      description: Get all the information of a posting
+    put:
+      summary: ''
+      operationId: put-users-user_id-postings-posting_id
+      responses:
+        '200':
+          description: Posting succesfully updated
+        '304':
+          description: Not Modified
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: Modify a posting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                posting_title:
+                  type: string
+                  minLength: 1
+                  description: Title of the posting
+                posting_description:
+                  type: string
+                  minLength: 1
+                  description: Description of the posting
+                posting_category:
+                  type: string
+                  minLength: 1
+                  description: Category of the posting
+                posting_location:
+                  type: string
+                  minLength: 1
+                  description: Location of the item
+                posting_price:
+                  type: number
+                  minimum: 0
+                  description: Asking price for the item
+                posting_delivery_type:
+                  type: string
+                  minLength: 1
+                  enum:
+                    - Shipping
+                    - PickUp
+                  description: Delivery type for the item
+                posting_images:
+                  type: array
+                  uniqueItems: true
+                  minItems: 0
+                  maxItems: 3
+                  description: Array of string which are the path of the images
+                  items:
+                    type: string
+                seller_name:
+                  type: string
+                  minLength: 1
+                  description: Full name of the seller
+                seller_email:
+                  type: string
+                  minLength: 1
+                  format: email
+                  description: Email address of the seller
+                seller_id:
+                  type: string
+                  minLength: 1
+                  format: uuid
+                  description: Id of the seller
+                posting_date:
+                  type: string
+                  format: date-time
+                  description: Post date of the posting
+              required:
+                - posting_title
+                - posting_description
+                - posting_category
+                - posting_location
+                - posting_price
+                - posting_delivery_type
+                - posting_images
+                - seller_name
+                - seller_email
+                - seller_id
+                - posting_date
+        description: ''
+    delete:
+      summary: ''
+      operationId: delete-users-user_id-postings-posting_id
+      responses:
+        '200':
+          description: Posting succesfully deleted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      description: Delete a posting
+  /postings:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  posting_title:
+                    type: string
+                    minLength: 1
+                    description: Title for the posting
+                  posting_description:
+                    type: string
+                    minLength: 1
+                    description: Description of the posting
+                  posting_category:
+                    type: string
+                    description: Category of the item
+                    enum:
+                      - Books
+                      - Electronics
+                      - Clothes
+                      - Home
+                      - Games
+                      - Art
+                      - Jewelry
+                    minLength: 1
+                  posting_location:
+                    type: string
+                    minLength: 1
+                    description: Localization of the item
+                  posting_price:
+                    type: number
+                    minimum: 0
+                    exclusiveMaximum: false
+                    description: Asking price of the seller for the item
+                  posting_date:
+                    type: string
+                    minLength: 1
+                    format: date-time
+                    description: Post date of the posting
+                  posting_delivery_type:
+                    type: string
+                    minLength: 1
+                    enum:
+                      - Shipping
+                      - PickUp
+                    description: Delivery type for the item
+                  posting_images:
+                    type: array
+                    uniqueItems: true
+                    minItems: 0
+                    maxItems: 3
+                    description: Array which contains the path for the images
+                    items:
+                      type: string
+                  seller_name:
+                    type: string
+                    minLength: 1
+                    description: Name of the seller
+                  seller_email:
+                    type: string
+                    minLength: 1
+                    format: email
+                    description: Email of the seller
+                  seller_id:
+                    type: string
+                    minLength: 1
+                    format: uuid
+                    description: Identifier of the seller
+                required:
+                  - posting_title
+                  - posting_description
+                  - posting_category
+                  - posting_location
+                  - posting_price
+                  - posting_date
+                  - posting_delivery_type
+                  - posting_images
+                  - seller_name
+                  - seller_email
+                  - seller_id
+              examples: {}
+        '404':
+          description: Not Found
+      operationId: get-postings
+      description: Get the list of every postings
+  '/postings/{posting_id}':
+    parameters:
+      - schema:
+          type: string
+        name: posting_id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  posting_title:
+                    type: string
+                    minLength: 1
+                    description: Title for the posting
+                  posting_description:
+                    type: string
+                    minLength: 1
+                    description: Description for the posting
+                  posting_category:
+                    type: string
+                    minLength: 1
+                    enum:
+                      - Books
+                      - Games
+                      - Electronics
+                      - Home
+                      - Clothes
+                      - Art
+                      - Jewelry
+                    description: Category of the item
+                  posting_location:
+                    type: string
+                    minLength: 1
+                    description: localization of the item
+                  posting_price:
+                    type: number
+                    minimum: 0
+                    description: Asking price by the seller for the item
+                  posting_date:
+                    type: string
+                    minLength: 1
+                    format: date-time
+                    description: Post date of the posting
+                  posting_delivery_type:
+                    type: string
+                    minLength: 1
+                    enum:
+                      - Shipping
+                      - PickUp
+                    description: Delivery type for the item
+                  posting_images:
+                    type: array
+                    uniqueItems: true
+                    minItems: 0
+                    maxItems: 3
+                    description: Array of string which contains the path of the images
+                    items:
+                      type: string
+                  seller_name:
+                    type: string
+                    minLength: 1
+                    description: Name of the seller
+                  seller_email:
+                    type: string
+                    minLength: 1
+                    format: email
+                    description: Email of the seller
+                  seller_id:
+                    type: string
+                    minLength: 1
+                    format: uuid
+                    description: Identifier of the seller
+                required:
+                  - posting_title
+                  - posting_description
+                  - posting_category
+                  - posting_location
+                  - posting_price
+                  - posting_date
+                  - posting_delivery_type
+                  - posting_images
+                  - seller_name
+                  - seller_email
+                  - seller_id
+      operationId: get-postings-posting_id
+      description: Get the information of one posting
+  '/postings/catagory/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    posting_title:
+                      type: string
+                      minLength: 1
+                      description: Title of the posting
+                    posting_description:
+                      type: string
+                      minLength: 1
+                      description: Descriprion of the posting
+                    posting_category:
+                      type: string
+                      minLength: 1
+                      description: Category of the item
+                      enum:
+                        - Books
+                        - Electronics
+                        - Clothes
+                        - Home
+                        - Games
+                        - Art
+                        - Jewelry
+                    posting_location:
+                      type: string
+                      minLength: 1
+                      description: Location of the item
+                    posting_price:
+                      type: number
+                      description: Asking price for the item
+                      minimum: 0
+                    posting_delivery_type:
+                      type: string
+                      minLength: 1
+                      description: Posting delivery type
+                      enum:
+                        - Shipping
+                        - PickUp
+                    posting_images:
+                      type: array
+                      minItems: 0
+                      description: Pictures of the item
+                      maxItems: 4
+                      items:
+                        type: string
+                    seller_name:
+                      type: string
+                      minLength: 1
+                      description: Full name of the seller
+                    seller_email:
+                      type: string
+                      minLength: 1
+                      description: Email of the seller
+                      format: email
+                    seller_id:
+                      type: string
+                      minLength: 1
+                      description: Id of the seller
+                      format: uuid
+                    posting_date:
+                      type: string
+                      format: date-time
+                      description: Date of the creation of the post
+                  required:
+                    - posting_title
+                    - posting_description
+                    - posting_category
+                    - posting_location
+                    - posting_price
+                    - posting_delivery_type
+                    - posting_images
+                    - seller_name
+                    - seller_email
+                    - seller_id
+              examples: {}
+        '404':
+          description: Not Found
+      operationId: get-postings-catagory-name
+      description: Will give every posting which have this category
+  '/postings/location/{place}':
+    parameters:
+      - schema:
+          type: string
+        name: place
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    posting_title:
+                      type: string
+                      minLength: 1
+                      description: Title of the posting
+                    posting_description:
+                      type: string
+                      minLength: 1
+                      description: Description of the posting
+                    posting_category:
+                      type: string
+                      minLength: 1
+                      description: Category of the posting
+                      enum:
+                        - Clothes
+                        - Home
+                        - Electronics
+                        - Games
+                        - Art
+                        - Jewelry
+                        - Books
+                    posting_location:
+                      type: string
+                      minLength: 1
+                      description: Location of the item
+                    posting_price:
+                      type: number
+                      description: Asking price by the seller
+                      minimum: 0
+                    posting_delivery_type:
+                      type: string
+                      minLength: 1
+                      description: Delivery type
+                      enum:
+                        - PickUp
+                        - Shipping
+                    posting_images:
+                      type: array
+                      minItems: 0
+                      description: Pictures of the item
+                      maxItems: 4
+                      items:
+                        type: string
+                    seller_name:
+                      type: string
+                      minLength: 1
+                      description: Full name of the seller
+                    seller_email:
+                      type: string
+                      minLength: 1
+                      description: Email address of the seller
+                      format: email
+                    seller_id:
+                      type: string
+                      minLength: 1
+                      description: Id of the seller
+                      format: uuid
+                    posting_date:
+                      type: string
+                      minLength: 1
+                      description: Date of the creation of the posting
+                      format: date-time
+                  required:
+                    - posting_title
+                    - posting_description
+                    - posting_category
+                    - posting_location
+                    - posting_price
+                    - posting_delivery_type
+                    - posting_images
+                    - seller_name
+                    - seller_email
+                    - seller_id
+              examples: {}
+        '404':
+          description: Not Found
+      operationId: get-postings-location-place
+      description: Will give the posting by order of the nearest to the farest
+  /postings/date:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+                  properties:
+                    posting_title:
+                      type: string
+                      minLength: 1
+                    posting_description:
+                      type: string
+                      minLength: 1
+                    posting_category:
+                      type: string
+                      minLength: 1
+                      enum:
+                        - Home
+                        - Clothes
+                        - Jewelry
+                        - Art
+                        - Games
+                        - Books
+                        - Electronics
+                    posting_location:
+                      type: string
+                      minLength: 1
+                    posting_price:
+                      type: number
+                      minimum: 0
+                    posting_delivery_type:
+                      type: string
+                      minLength: 1
+                      enum:
+                        - Shipping
+                        - PickUp
+                    posting_images:
+                      type: array
+                      minItems: 0
+                      maxItems: 4
+                      items:
+                        type: string
+                    seller_name:
+                      type: string
+                      minLength: 1
+                    seller_email:
+                      type: string
+                      minLength: 1
+                      format: email
+                    seller_id:
+                      type: string
+                      minLength: 1
+                      format: uuid
+                    posting_date:
+                      type: string
+                      minLength: 1
+                      format: date-time
+                  required:
+                    - posting_title
+                    - posting_description
+                    - posting_category
+                    - posting_location
+                    - posting_price
+                    - posting_delivery_type
+                    - posting_images
+                    - seller_name
+                    - seller_email
+                    - seller_id
+        '404':
+          description: Not Found
+      operationId: get-postings-date
+      description: 'Will give the posting by order of posting date '
+  '/users/{users_id}/postings/upload':
+    parameters:
+      - schema:
+          type: string
+        name: users_id
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-users-users_id-postings-upload
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ''
+                properties:
+                  posting_id:
+                    type: string
+                    format: uuid
+                    description: Id of the posting modified
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Une image
+              type: object
+              properties:
+                fieldname:
+                  type: string
+                  minLength: 1
+                originalname:
+                  type: string
+                  minLength: 1
+                encoding:
+                  type: string
+                  minLength: 1
+                mimetype:
+                  type: string
+                  minLength: 1
+                  description: jpg ou npg
+                buffer:
+                  type: string
+                  minLength: 1
+                size:
+                  type: number
+              required:
+                - fieldname
+                - originalname
+                - encoding
+                - mimetype
+                - buffer
+                - size
+      description: Upload a picture in cloudinary and add it it the array of the posting
+components:
+  schemas: {}
