@@ -1,3 +1,4 @@
+//Model of the postings table
 const mongoose = require('mongoose');
 
 const PostingsModel = mongoose.model(

@@ -1,3 +1,4 @@
+//Model of the users table
 const mongoose = require('mongoose');
 
 const UsersModel = mongoose.model(

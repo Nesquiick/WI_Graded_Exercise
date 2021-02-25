@@ -16,7 +16,8 @@ const jwt = require('jsonwebtoken');
 const jwtSecretKey = require('../auth/jwt-key.json');
 // *** 
 
-// *** Upload Images
+/*
+// *** Upload Images DON'T WORK : see README
 var multer = require('multer');
 var cloudinary = require('cloudinary');
 cloudinary.config({ 
@@ -34,18 +35,11 @@ var storage = cloudinaryStorage.createCloudinaryStorage({
 var parser = multer({ storage: storage });
 // ***
 
-router.post('/upload', parser.single('image'), function (req, res) {
-    console.log(req.file);
-    res.status(201);
-    res.json(req.file);
-});
-
 router.post(
 '/:id_user/postings/:id_post/upload',
 passport.authenticate('jwt', { session: false }),
-parser.single('image'), //doesnt upload on cloudinary i don't know why
+parser.single('image'),
 (req,res) => {
-    console.log("ici");
     if (!ObjectID.isValid(req.params.id_user)){
         return res.status(400).send("ID unknown : "+ req.params.id_user);
     }else if (!ObjectID.isValid(req.params.id_post)){
@@ -67,9 +61,7 @@ parser.single('image'), //doesnt upload on cloudinary i don't know why
                 if(req.user.id==req.params.id_user){
                     
                     if(post.posting_images.length==0){
-                        console.log("là");
                         const array= cloudinary.url(req.file.originalname);
-                        console.log("là ici");
                         const updateRecord = {
                             posting_title: post.posting_title,
                             posting_description: post.posting_description,
@@ -95,11 +87,8 @@ parser.single('image'), //doesnt upload on cloudinary i don't know why
                             }
                         )
                     }else{
-                        //doesn't work ..
-                        console.log("là là");
-                        console.log(post.posting_images);
+                        //doesn't work, I want to add the image's link to the array
                         const array= post.posting_images.push(cloudinary.url(req.file.originalname));
-                        console.log("là là là");
                         const updateRecord = {
                             posting_title: post.posting_title,
                             posting_description: post.posting_description,
@@ -132,7 +121,8 @@ parser.single('image'), //doesnt upload on cloudinary i don't know why
         });
     }
 });
-                    
+*/
+
 
 /* Create a user with postman :
 {
@@ -181,9 +171,9 @@ router.post('/', (req,res) => { //Create a user
     }
 });
 
-router.get('/login',
+router.get('/login', // Loggin a user
 passport.authenticate('basic', {session: false}), 
-(req, res) => { // Loggin a user
+(req, res) => {
     const body = {
         id: req.user._id,
         name: req.user.user_name,
@@ -195,10 +185,10 @@ passport.authenticate('basic', {session: false}),
     return res.status(200).json({body, token});
 });
 
-router.get(
+router.get( //Get all the informations from a user
 '/:id',
 passport.authenticate('jwt', { session: false }), 
-(req,res) => { //Get all the informations from a user
+(req,res) => { 
     if (!ObjectID.isValid(req.params.id)){
         return res.status(400).send("ID unknown : "+ req.params.id);
     }else if(req.user.id==req.params.id){
@@ -218,8 +208,8 @@ passport.authenticate('jwt', { session: false }),
 
 // This is the routes for the user's postings
 
-router.get('/:id/postings',
-(req,res) => { //Get all the postings from a user
+router.get('/:id/postings', //Get all the postings from a user
+(req,res) => { 
     if (!ObjectID.isValid(req.params.id)){
         return res.status(400).send("ID unknown : "+ req.params.id);
     }else{
@@ -244,10 +234,10 @@ router.get('/:id/postings',
 }
 */
 
-router.post(
+router.post( //Create a posting
 '/:id/postings',
 passport.authenticate('jwt', { session: false }), 
-(req,res) => { //Create a posting
+(req,res) => { 
     if (!ObjectID.isValid(req.params.id)){
         return res.status(400).send("ID unknown : "+ req.params.id);
     }else {
@@ -292,43 +282,10 @@ passport.authenticate('jwt', { session: false }),
     }
 });
 
-
-router.get('/:id_user/postings/:id_post', (req,res) => { //Get all the information of a posting for a user
-    if (!ObjectID.isValid(req.params.id_user)){
-        return res.status(400).send("ID unknown : "+ req.params.id_user);
-    }else if (!ObjectID.isValid(req.params.id_post)){
-        return res.status(400).send("ID unknown : "+ req.params.id_post);
-    }else {
-        function getPostingOwner(post_id, user_id){
-            const query_post_owner = PostingsModel.findOne({ _id: post_id, seller_id: user_id });
-            return query_post_owner;
-        }
-        const query_owner = getPostingOwner(req.params.id_post,req.params.id_user);
-        query_owner.exec(function (err,post){
-            if(err) {
-                return res.status(400).send("Error : "+ err);
-            }
-            else if (!post) {
-                return res.status(404).send("Posting not found, or you sure it is this user that post it ?");
-            }
-            else {
-                PostingsModel.find({_id:req.params.id_post}, (err, docs) => {
-                    if (!err) {
-                        res.status(200).send(docs);
-                    }else{
-                        return res.status(400).send("Error to get the data: "+ err);
-                    }
-                });
-            }
-        });
-    }
-    
-});
-
-router.put(
+router.put( //Update the posting
 '/:id_user/postings/:id_post',
 passport.authenticate('jwt', { session: false }), 
-(req,res) => { //Update the posting
+(req,res) => { 
     if (!ObjectID.isValid(req.params.id_user))
         return res.status(400).send("ID unknown : "+ req.params.id_user);
     else if (!ObjectID.isValid(req.params.id_post))
@@ -393,10 +350,10 @@ passport.authenticate('jwt', { session: false }),
 });
 
 
-router.delete(
+router.delete( //Delete the posting of a user/owner
 '/:id_user/postings/:id_post',
 passport.authenticate('jwt', { session: false }), 
-(req,res) => { //Delete the posting of a user/owner
+(req,res) => { 
     if (!ObjectID.isValid(req.params.id_user))
         return res.status(400).send("ID unknown : "+ req.params.id_user);
     else if (!ObjectID.isValid(req.params.id_post))

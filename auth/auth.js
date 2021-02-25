@@ -1,3 +1,4 @@
+// Authentification :
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
 const passportJWT = require("passport-jwt");

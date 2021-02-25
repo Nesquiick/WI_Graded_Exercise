@@ -1,4 +1,4 @@
-// In this files the path for search the postings based on location, category and date is missing.
+// In this files the path for search the postings based on location, category and date are missing.
 
 const express = require('express');
 const router = express.Router();

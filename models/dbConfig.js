@@ -1,3 +1,5 @@
+//Connection to the database
+
 const mongoose = require('mongoose');
 const uri = "mongodb+srv://dbUserLN:dbUserLNmdp@graded-exercise-cluster.05bgr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
