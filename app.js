@@ -37,6 +37,9 @@ app.post('/upload', parser.single('image'), function (req, res) {
     res.json(req.file);
 });
 
+
+///users/6037c1893b80f3000405c88b/postings/6037c1c63b80f3000405c88c
+
 app.get('/', function(req, res) {
   res.send("Welcome to My API, NOIRAUD Loreleï");
 });

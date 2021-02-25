@@ -40,9 +40,9 @@ router.post('/upload', parser.single('image'), function (req, res) {
     res.json(req.file);
 });
 
-/*router.post(
+router.post(
 '/:id_user/postings/:id_post/upload',
-//passport.authenticate('jwt', { session: false }),
+passport.authenticate('jwt', { session: false }),
 parser.single('image'), //doesnt upload on cloudinary i don't know why
 (req,res) => {
     console.log("ici");
@@ -64,7 +64,7 @@ parser.single('image'), //doesnt upload on cloudinary i don't know why
                 return res.status(404).send("Posting not found, or you sure it is this user that post it ?");
             }
             else {
-                //if(req.user.id==req.params.id_user){
+                if(req.user.id==req.params.id_user){
                     
                     if(post.posting_images.length==0){
                         console.log("là");
@@ -125,13 +125,13 @@ parser.single('image'), //doesnt upload on cloudinary i don't know why
                             }
                         )
                     }
-                // }else{
-                //     return res.status(401).send("Unauthorized");
-                // }
+                }else{
+                    return res.status(401).send("Unauthorized");
+                }
             }
         });
     }
-});*/
+});
                     
 
 /* Create a user with postman :
