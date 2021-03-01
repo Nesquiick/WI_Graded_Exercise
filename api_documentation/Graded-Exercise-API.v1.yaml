@@ -6,7 +6,7 @@ info:
     name: Noiraud Loreleï
   description: API which primary function is to serve as a platform for selling and buying used items. An example of this in Finland would be Tori.fi or globally ebay.com.
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'https://graded-exercise.herokuapp.com'
 paths:
   '/users/{userId}':
     parameters:
@@ -138,7 +138,7 @@ paths:
     parameters: []
   /users/login:
     post:
-      summary: ''
+      summary: Connect a user
       operationId: post-login
       responses:
         '200':
@@ -194,7 +194,7 @@ paths:
         in: path
         required: true
     post:
-      summary: ''
+      summary: Create a posting by a user
       operationId: post-users-user_id-postings
       responses:
         '201':
@@ -290,7 +290,7 @@ paths:
                 - seller_id
       description: Add a new item that the user sell.
     get:
-      summary: ''
+      summary: Get all the postings from a user
       operationId: get-users-user_id-postings
       responses:
         '200':
@@ -388,92 +388,8 @@ paths:
         name: posting_id
         in: path
         required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  posting_title:
-                    type: string
-                    minLength: 1
-                    description: Title of the posting
-                  posting_description:
-                    type: string
-                    minLength: 1
-                    description: Description of the posting
-                  posting_category:
-                    type: string
-                    minLength: 1
-                    description: Category of the posting
-                  posting_location:
-                    type: string
-                    minLength: 1
-                    description: Location of the item
-                  posting_price:
-                    type: number
-                    minimum: 0
-                    description: Asking price for the item
-                  posting_date:
-                    type: string
-                    minLength: 1
-                    format: date-time
-                    description: Post date of the posting
-                  posting_delivery_type:
-                    type: string
-                    minLength: 1
-                    enum:
-                      - Shipping
-                      - PickUp
-                    description: Delivery type for the item
-                  posting_images:
-                    type: array
-                    uniqueItems: true
-                    minItems: 0
-                    maxItems: 3
-                    description: Arrays of string which are the path of the images
-                    items:
-                      type: string
-                  seller_name:
-                    type: string
-                    minLength: 1
-                    description: Full name of the seller
-                  seller_email:
-                    type: string
-                    minLength: 1
-                    format: email
-                    description: Email address of the seller
-                  seller_id:
-                    type: string
-                    minLength: 1
-                    format: uuid
-                    description: ID of the seller
-                required:
-                  - posting_title
-                  - posting_description
-                  - posting_category
-                  - posting_location
-                  - posting_price
-                  - posting_date
-                  - posting_delivery_type
-                  - posting_images
-                  - seller_name
-                  - seller_email
-                  - seller_id
-              examples: {}
-          headers: {}
-        '404':
-          description: Not Found
-      operationId: get-users-user_id-postings-posting_id
-      description: Get all the information of a posting
     put:
-      summary: ''
+      summary: Modify a posting
       operationId: put-users-user_id-postings-posting_id
       responses:
         '200':
@@ -559,7 +475,7 @@ paths:
                 - posting_date
         description: ''
     delete:
-      summary: ''
+      summary: Delete a posting
       operationId: delete-users-user_id-postings-posting_id
       responses:
         '200':
@@ -571,7 +487,7 @@ paths:
       description: Delete a posting
   /postings:
     get:
-      summary: Your GET endpoint
+      summary: Get all the postings
       tags: []
       responses:
         '200':
@@ -670,7 +586,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get the information of a posting
       tags: []
       responses:
         '200':
@@ -757,7 +673,7 @@ paths:
                   - seller_id
       operationId: get-postings-posting_id
       description: Get the information of one posting
-  '/postings/catagory/{name}':
+  '/postings/category/{name}':
     parameters:
       - schema:
           type: string
@@ -765,7 +681,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get all the posting that are in this category name
       tags: []
       responses:
         '200':
@@ -864,7 +780,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get the posting order by the smallest distance from you
       tags: []
       responses:
         '200':
@@ -958,7 +874,7 @@ paths:
       description: Will give the posting by order of the nearest to the farest
   /postings/date:
     get:
-      summary: Your GET endpoint
+      summary: Get the postings order by their creation
       tags: []
       responses:
         '200':
@@ -1038,15 +954,20 @@ paths:
           description: Not Found
       operationId: get-postings-date
       description: 'Will give the posting by order of posting date '
-  '/users/{users_id}/postings/upload':
+  '/users/{users_id}/postings/{posting_id}/upload':
     parameters:
       - schema:
           type: string
         name: users_id
         in: path
         required: true
+      - schema:
+          type: string
+        name: posting_id
+        in: path
+        required: true
     post:
-      summary: ''
+      summary: Upload an image for a posting
       operationId: post-users-users_id-postings-upload
       responses:
         '200':

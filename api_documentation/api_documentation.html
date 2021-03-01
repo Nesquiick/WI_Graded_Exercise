@@ -1,0 +1,1229 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Graded Exercise API</title>
+    <style type="text/css">
+      body {
+      	font-family: Trebuchet MS, sans-serif;
+      	font-size: 15px;
+      	color: #444;
+      	margin-right: 24px;
+      }
+      
+      h1	{
+      	font-size: 25px;
+      }
+      h2	{
+      	font-size: 20px;
+      }
+      h3	{
+      	font-size: 16px;
+      	font-weight: bold;
+      }
+      hr	{
+      	height: 1px;
+      	border: 0;
+      	color: #ddd;
+      	background-color: #ddd;
+      }
+      
+      .app-desc {
+        clear: both;
+        margin-left: 20px;
+      }
+      .param-name {
+        width: 100%;
+      }
+      .license-info {
+        margin-left: 20px;
+      }
+      
+      .license-url {
+        margin-left: 20px;
+      }
+      
+      .model {
+        margin: 0 0 0px 20px;
+      }
+      
+      .method {
+        margin-left: 20px;
+      }
+      
+      .method-notes	{
+      	margin: 10px 0 20px 0;
+      	font-size: 90%;
+      	color: #555;
+      }
+      
+      pre {
+        padding: 10px;
+        margin-bottom: 2px;
+      }
+      
+      .http-method {
+       text-transform: uppercase;
+      }
+      
+      pre.get {
+        background-color: #0f6ab4;
+      }
+      
+      pre.post {
+        background-color: #10a54a;
+      }
+      
+      pre.put {
+        background-color: #c5862b;
+      }
+      
+      pre.delete {
+        background-color: #a41e22;
+      }
+      
+      .huge	{
+      	color: #fff;
+      }
+      
+      pre.example {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      
+      code {
+        white-space: pre;
+      }
+      
+      .nickname {
+        font-weight: bold;
+      }
+      
+      .method-path {
+        font-size: 1.5em;
+        background-color: #0f6ab4;
+      }
+      
+      .up {
+        float:right;
+      }
+      
+      .parameter {
+        width: 500px;
+      }
+      
+      .param {
+        width: 500px;
+        padding: 10px 0 0 20px;
+        font-weight: bold;
+      }
+      
+      .param-desc {
+        width: 700px;
+        padding: 0 0 0 20px;
+        color: #777;
+      }
+      
+      .param-type {
+        font-style: italic;
+      }
+      
+      .param-enum-header {
+      width: 700px;
+      padding: 0 0 0 60px;
+      color: #777;
+      font-weight: bold;
+      }
+      
+      .param-enum {
+      width: 700px;
+      padding: 0 0 0 80px;
+      color: #777;
+      font-style: italic;
+      }
+      
+      .field-label {
+        padding: 0;
+        margin: 0;
+        clear: both;
+      }
+      
+      .field-items	{
+      	padding: 0 0 15px 0;
+      	margin-bottom: 15px;
+      }
+      
+      .return-type {
+        clear: both;
+        padding-bottom: 10px;
+      }
+      
+      .param-header {
+        font-weight: bold;
+      }
+      
+      .method-tags {
+        text-align: right;
+      }
+      
+      .method-tag {
+        background: none repeat scroll 0% 0% #24A600;
+        border-radius: 3px;
+        padding: 2px 10px;
+        margin: 2px;
+        color: #FFF;
+        display: inline-block;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>Graded Exercise API</h1>
+    <div class="app-desc">API which primary function is to serve as a platform for selling and buying used items. An example of this in Finland would be Tori.fi or globally ebay.com.</div>
+    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+    <div class="app-desc">Version: 1.0</div>
+    
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Default">Default</a></h4>
+  <ul>
+  <li><a href="#deleteUsersUserIdPostingsPostingId"><code><span class="http-method">delete</span> /users/{user_id}/postings/{posting_id}</code></a></li>
+  <li><a href="#getPostings"><code><span class="http-method">get</span> /postings</code></a></li>
+  <li><a href="#getPostingsCatagoryName"><code><span class="http-method">get</span> /postings/category/{name}</code></a></li>
+  <li><a href="#getPostingsDate"><code><span class="http-method">get</span> /postings/date</code></a></li>
+  <li><a href="#getPostingsLocationPlace"><code><span class="http-method">get</span> /postings/location/{place}</code></a></li>
+  <li><a href="#getPostingsPostingId"><code><span class="http-method">get</span> /postings/{posting_id}</code></a></li>
+  <li><a href="#getUsersUserId"><code><span class="http-method">get</span> /users/{userId}</code></a></li>
+  <li><a href="#getUsersUserIdPostings"><code><span class="http-method">get</span> /users/{user_id}/postings</code></a></li>
+  <li><a href="#postLogin"><code><span class="http-method">post</span> /users/login</code></a></li>
+  <li><a href="#postUser"><code><span class="http-method">post</span> /users</code></a></li>
+  <li><a href="#postUsersUserIdPostings"><code><span class="http-method">post</span> /users/{user_id}/postings</code></a></li>
+  <li><a href="#postUsersUsersIdPostingsUpload"><code><span class="http-method">post</span> /users/{users_id}/postings/{posting_id}/upload</code></a></li>
+  <li><a href="#putUsersUserIdPostingsPostingId"><code><span class="http-method">put</span> /users/{user_id}/postings/{posting_id}</code></a></li>
+  </ul>
+
+  <h1><a name="Default">Default</a></h1>
+  <div class="method"><a name="deleteUsersUserIdPostingsPostingId"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /users/{user_id}/postings/{posting_id}</code></pre></div>
+    <div class="method-summary">Delete a posting (<span class="nickname">deleteUsersUserIdPostingsPostingId</span>)</div>
+    <div class="method-notes">Delete a posting</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">user_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>      <div class="param">posting_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Posting succesfully deleted
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad Request
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getPostings"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /postings</code></pre></div>
+    <div class="method-summary">Get all the postings (<span class="nickname">getPostings</span>)</div>
+    <div class="method-notes">Get the list of every postings</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_4">inline_response_200_4</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "posting_category" : "Books",
+  "posting_price" : 0.08008281904610115,
+  "seller_email" : "",
+  "seller_name" : "seller_name",
+  "posting_location" : "posting_location",
+  "posting_images" : [ "posting_images", "posting_images", "posting_images" ],
+  "posting_delivery_type" : "Shipping",
+  "posting_description" : "posting_description",
+  "posting_title" : "posting_title",
+  "posting_date" : "2000-01-23T04:56:07.000+00:00",
+  "seller_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#inline_response_200_4">inline_response_200_4</a>
+    <h4 class="field-label">404</h4>
+    Not Found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getPostingsCatagoryName"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /postings/category/{name}</code></pre></div>
+    <div class="method-summary">Get all the posting that are in this category name (<span class="nickname">getPostingsCatagoryName</span>)</div>
+    <div class="method-notes">Will give every posting which have this category</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#inline_response_200_6">inline_response_200_6</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "posting_category" : "Books",
+  "posting_price" : 0.08008281904610115,
+  "seller_email" : "",
+  "seller_name" : "seller_name",
+  "posting_location" : "posting_location",
+  "posting_images" : [ "posting_images", "posting_images", "posting_images", "posting_images" ],
+  "posting_delivery_type" : "Shipping",
+  "posting_description" : "posting_description",
+  "posting_title" : "posting_title",
+  "posting_date" : "2000-01-23T04:56:07.000+00:00",
+  "seller_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}, {
+  "posting_category" : "Books",
+  "posting_price" : 0.08008281904610115,
+  "seller_email" : "",
+  "seller_name" : "seller_name",
+  "posting_location" : "posting_location",
+  "posting_images" : [ "posting_images", "posting_images", "posting_images", "posting_images" ],
+  "posting_delivery_type" : "Shipping",
+  "posting_description" : "posting_description",
+  "posting_title" : "posting_title",
+  "posting_date" : "2000-01-23T04:56:07.000+00:00",
+  "seller_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+    <h4 class="field-label">404</h4>
+    Not Found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getPostingsDate"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /postings/date</code></pre></div>
+    <div class="method-summary">Get the postings order by their creation (<span class="nickname">getPostingsDate</span>)</div>
+    <div class="method-notes">Will give the posting by order of posting date</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#inline_response_200_8">inline_response_200_8</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "posting_category" : "Home",
+  "posting_price" : 0.08008281904610115,
+  "seller_email" : "",
+  "seller_name" : "seller_name",
+  "posting_location" : "posting_location",
+  "posting_images" : [ "posting_images", "posting_images", "posting_images", "posting_images" ],
+  "posting_delivery_type" : "Shipping",
+  "posting_description" : "posting_description",
+  "posting_title" : "posting_title",
+  "posting_date" : "2000-01-23T04:56:07.000+00:00",
+  "seller_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}, {
+  "posting_category" : "Home",
+  "posting_price" : 0.08008281904610115,
+  "seller_email" : "",
+  "seller_name" : "seller_name",
+  "posting_location" : "posting_location",
+  "posting_images" : [ "posting_images", "posting_images", "posting_images", "posting_images" ],
+  "posting_delivery_type" : "Shipping",
+  "posting_description" : "posting_description",
+  "posting_title" : "posting_title",
+  "posting_date" : "2000-01-23T04:56:07.000+00:00",
+  "seller_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+    <h4 class="field-label">404</h4>
+    Not Found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getPostingsLocationPlace"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /postings/location/{place}</code></pre></div>
+    <div class="method-summary">Get the posting order by the smallest distance from you (<span class="nickname">getPostingsLocationPlace</span>)</div>
+    <div class="method-notes">Will give the posting by order of the nearest to the farest</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">place (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#inline_response_200_7">inline_response_200_7</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "posting_category" : "Clothes",
+  "posting_price" : 0.08008281904610115,
+  "seller_email" : "",
+  "seller_name" : "seller_name",
+  "posting_location" : "posting_location",
+  "posting_images" : [ "posting_images", "posting_images", "posting_images", "posting_images" ],
+  "posting_delivery_type" : "PickUp",
+  "posting_description" : "posting_description",
+  "posting_title" : "posting_title",
+  "posting_date" : "2000-01-23T04:56:07.000+00:00",
+  "seller_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}, {
+  "posting_category" : "Clothes",
+  "posting_price" : 0.08008281904610115,
+  "seller_email" : "",
+  "seller_name" : "seller_name",
+  "posting_location" : "posting_location",
+  "posting_images" : [ "posting_images", "posting_images", "posting_images", "posting_images" ],
+  "posting_delivery_type" : "PickUp",
+  "posting_description" : "posting_description",
+  "posting_title" : "posting_title",
+  "posting_date" : "2000-01-23T04:56:07.000+00:00",
+  "seller_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+    <h4 class="field-label">404</h4>
+    Not Found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getPostingsPostingId"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /postings/{posting_id}</code></pre></div>
+    <div class="method-summary">Get the information of a posting (<span class="nickname">getPostingsPostingId</span>)</div>
+    <div class="method-notes">Get the information of one posting</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">posting_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_5">inline_response_200_5</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "posting_category" : "Books",
+  "posting_price" : 0.08008281904610115,
+  "seller_email" : "",
+  "seller_name" : "seller_name",
+  "posting_location" : "posting_location",
+  "posting_images" : [ "posting_images", "posting_images", "posting_images" ],
+  "posting_delivery_type" : "Shipping",
+  "posting_description" : "posting_description",
+  "posting_title" : "posting_title",
+  "posting_date" : "2000-01-23T04:56:07.000+00:00",
+  "seller_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#inline_response_200_5">inline_response_200_5</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getUsersUserId"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /users/{userId}</code></pre></div>
+    <div class="method-summary">Get User Info by User ID (<span class="nickname">getUsersUserId</span>)</div>
+    <div class="method-notes">Retrieve the information of the user with the matching user ID.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">userId (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Id of an existing user. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200">inline_response_200</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "user_date_birth" : "2000-01-23T04:56:07.000+00:00",
+  "user_email" : "john@demo.com",
+  "user_password" : "password_123",
+  "user_name" : "user_name",
+  "user_address" : "user_address"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    User Found
+        <a href="#inline_response_200">inline_response_200</a>
+    <h4 class="field-label">404</h4>
+    User Not Found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getUsersUserIdPostings"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /users/{user_id}/postings</code></pre></div>
+    <div class="method-summary">Get all the postings from a user (<span class="nickname">getUsersUserIdPostings</span>)</div>
+    <div class="method-notes">Get all the posting(s) of a user</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">user_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_3">inline_response_200_3</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "posting_category" : "Books",
+  "posting_price" : 0.08008281904610115,
+  "seller_email" : "",
+  "seller_name" : "seller_name",
+  "posting_location" : "posting_location",
+  "posting_images" : [ "posting_images", "posting_images", "posting_images" ],
+  "posting_delivery_type" : "Shipping",
+  "posting_description" : "posting_description",
+  "posting_title" : "posting_title",
+  "posting_date" : "2000-01-23T04:56:07.000+00:00",
+  "seller_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#inline_response_200_3">inline_response_200_3</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="postLogin"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /users/login</code></pre></div>
+    <div class="method-summary">Connect a user (<span class="nickname">postLogin</span>)</div>
+    <div class="method-notes">Connect a user into the system.</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#body_1">body_1</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_2">inline_response_200_2</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "user_id" : "6a318be8-efae-4104-af4f-e662786142bb"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#inline_response_200_2">inline_response_200_2</a>
+    <h4 class="field-label">400</h4>
+    Bad Request
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="postUser"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /users</code></pre></div>
+    <div class="method-summary">Create New User (<span class="nickname">postUser</span>)</div>
+    <div class="method-notes">Create a new user.</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#body">body</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Post the necessary fields for the API to create a new user. </div>
+            <div class="param-desc"><span class="param-type">example: <code>{
+  &quot;value&quot; : {
+    &quot;user_username&quot; : &quot;jon29&quot;,
+    &quot;user_name&quot; : &quot;John Doe&quot;,
+    &quot;user_date_birth&quot; : &quot;2000-01-24T01:30:36&quot;,
+    &quot;user_address&quot; : &quot;Tutkijantie 2, Oulu, Finland&quot;,
+    &quot;user_email&quot; : &quot;john@demo.com&quot;,
+    &quot;user_password&quot; : &quot;password_123&quot;
+  }
+}</code></span></div>    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_1">inline_response_200_1</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "user_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    User Created
+        <a href="#inline_response_200_1">inline_response_200_1</a>
+    <h4 class="field-label">400</h4>
+    Missing Required Information
+        <a href="#"></a>
+    <h4 class="field-label">418</h4>
+    User whith that username already exists
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="postUsersUserIdPostings"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /users/{user_id}/postings</code></pre></div>
+    <div class="method-summary">Create a posting by a user (<span class="nickname">postUsersUserIdPostings</span>)</div>
+    <div class="method-notes">Add a new item that the user sell.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">user_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#body_2">body_2</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_201">inline_response_201</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "posting_id" : "6a358be8-efae-4104-ad4f-e662786142bb"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    Created
+        <a href="#inline_response_201">inline_response_201</a>
+    <h4 class="field-label">400</h4>
+    Bad Request
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="postUsersUsersIdPostingsUpload"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /users/{users_id}/postings/{posting_id}/upload</code></pre></div>
+    <div class="method-summary">Upload an image for a posting (<span class="nickname">postUsersUsersIdPostingsUpload</span>)</div>
+    <div class="method-notes">Upload a picture in cloudinary and add it it the array of the posting</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">users_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>      <div class="param">posting_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#body_4">body_4</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_9">inline_response_200_9</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "posting_id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#inline_response_200_9">inline_response_200_9</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="putUsersUserIdPostingsPostingId"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /users/{user_id}/postings/{posting_id}</code></pre></div>
+    <div class="method-summary">Modify a posting (<span class="nickname">putUsersUserIdPostingsPostingId</span>)</div>
+    <div class="method-notes">Modify a posting</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">user_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>      <div class="param">posting_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#body_3">body_3</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Posting succesfully updated
+        <a href="#"></a>
+    <h4 class="field-label">304</h4>
+    Not Modified
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad Request
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#body"><code>body</code></a></li>
+    <li><a href="#body_1"><code>body_1</code></a></li>
+    <li><a href="#body_2"><code>body_2</code></a></li>
+    <li><a href="#body_3"><code>body_3</code></a></li>
+    <li><a href="#body_4"><code>body_4</code></a></li>
+    <li><a href="#inline_response_200"><code>inline_response_200</code></a></li>
+    <li><a href="#inline_response_200_1"><code>inline_response_200_1</code></a></li>
+    <li><a href="#inline_response_200_2"><code>inline_response_200_2</code></a></li>
+    <li><a href="#inline_response_200_3"><code>inline_response_200_3</code></a></li>
+    <li><a href="#inline_response_200_4"><code>inline_response_200_4</code></a></li>
+    <li><a href="#inline_response_200_5"><code>inline_response_200_5</code></a></li>
+    <li><a href="#inline_response_200_6"><code>inline_response_200_6</code></a></li>
+    <li><a href="#inline_response_200_7"><code>inline_response_200_7</code></a></li>
+    <li><a href="#inline_response_200_8"><code>inline_response_200_8</code></a></li>
+    <li><a href="#inline_response_200_9"><code>inline_response_200_9</code></a></li>
+    <li><a href="#inline_response_201"><code>inline_response_201</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="body"><code>body</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">user_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> First and family name of the user </div>
+<div class="param">user_date_birth </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User&#x27;s date of birth in RFC3339 format </div>
+<div class="param">user_address </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User&#x27;s physical address </div>
+<div class="param">user_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Valid email adress of the user format: email</div>
+          <div class="param-desc"><span class="param-type">example: john@demo.com</span></div>
+<div class="param">user_password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Valid password of the user format: password</div>
+          <div class="param-desc"><span class="param-type">example: password_123</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="body_1"><code>body_1</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">user_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Valid username of a user format: email</div>
+          <div class="param-desc"><span class="param-type">example: jon29@gmail.com</span></div>
+<div class="param">user_password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Valid password of a user format: password</div>
+          <div class="param-desc"><span class="param-type">example: password_123</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="body_2"><code>body_2</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Title of the posting </div>
+<div class="param">posting_description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description of the posting </div>
+<div class="param">posting_category </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Category of the posting </div>
+<div class="param">posting_location </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Location of the item </div>
+<div class="param">posting_price </div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> Asking price of the item </div>
+<div class="param">posting_date </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> Post date of the posting format: date-time</div>
+<div class="param">posting_delivery_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Delivery type for the item </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Shipping</div><div class="param-enum">PickUp</div>
+<div class="param">posting_images </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Array of strings which are the path for the images </div>
+<div class="param">seller_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Full name of the seller </div>
+<div class="param">seller_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email address of the seller format: email</div>
+<div class="param">seller_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> ID of the seller format: uuid</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="body_3"><code>body_3</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Title of the posting </div>
+<div class="param">posting_description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description of the posting </div>
+<div class="param">posting_category </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Category of the posting </div>
+<div class="param">posting_location </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Location of the item </div>
+<div class="param">posting_price </div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> Asking price for the item </div>
+<div class="param">posting_delivery_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Delivery type for the item </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Shipping</div><div class="param-enum">PickUp</div>
+<div class="param">posting_images </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Array of string which are the path of the images </div>
+<div class="param">seller_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Full name of the seller </div>
+<div class="param">seller_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email address of the seller format: email</div>
+<div class="param">seller_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> Id of the seller format: uuid</div>
+<div class="param">posting_date </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> Post date of the posting format: date-time</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="body_4"><code>body_4</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Une image</div>
+    <div class="field-items">
+      <div class="param">fieldname </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">originalname </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">encoding </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">mimetype </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> jpg ou npg </div>
+<div class="param">buffer </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">size </div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200"><code>inline_response_200</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">user_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Full name of the user </div>
+<div class="param">user_date_birth </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> User&#x27;s date of birth format: date-time</div>
+<div class="param">user_address </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User&#x27;s address </div>
+<div class="param">user_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> user&#x27;s email address format: email</div>
+          <div class="param-desc"><span class="param-type">example: john@demo.com</span></div>
+<div class="param">user_password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> user&#x27;s password format: password</div>
+          <div class="param-desc"><span class="param-type">example: password_123</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_1"><code>inline_response_200_1</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">user_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> The id assigned to the connected user (uuid format) format: uuid</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_2"><code>inline_response_200_2</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">user_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> The id assigned to the connected user format: uuid</div>
+          <div class="param-desc"><span class="param-type">example: 6a318be8-efae-4104-af4f-e662786142bb</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_3"><code>inline_response_200_3</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Title of the posting </div>
+<div class="param">posting_description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description of the posting </div>
+<div class="param">posting_category </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Category of the posting </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Books</div><div class="param-enum">Electronics</div><div class="param-enum">Clothes</div><div class="param-enum">home</div><div class="param-enum">Games</div><div class="param-enum">Art</div><div class="param-enum">Jewelry</div>
+<div class="param">posting_location </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Location of the selling item </div>
+<div class="param">posting_price </div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> Asking price by the seller for the item </div>
+<div class="param">posting_date </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> Post date of the posting format: date-time</div>
+<div class="param">posting_delivery_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Delivery type for the item </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Shipping</div><div class="param-enum">PickUp</div>
+<div class="param">posting_images </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Array of string which are the path for images </div>
+<div class="param">seller_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the seller </div>
+<div class="param">seller_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email of the seller format: email</div>
+<div class="param">seller_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> Id of the seller format: uuid</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_4"><code>inline_response_200_4</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Title for the posting </div>
+<div class="param">posting_description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description of the posting </div>
+<div class="param">posting_category </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Category of the item </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Books</div><div class="param-enum">Electronics</div><div class="param-enum">Clothes</div><div class="param-enum">Home</div><div class="param-enum">Games</div><div class="param-enum">Art</div><div class="param-enum">Jewelry</div>
+<div class="param">posting_location </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Localization of the item </div>
+<div class="param">posting_price </div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> Asking price of the seller for the item </div>
+<div class="param">posting_date </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> Post date of the posting format: date-time</div>
+<div class="param">posting_delivery_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Delivery type for the item </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Shipping</div><div class="param-enum">PickUp</div>
+<div class="param">posting_images </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Array which contains the path for the images </div>
+<div class="param">seller_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the seller </div>
+<div class="param">seller_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email of the seller format: email</div>
+<div class="param">seller_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> Identifier of the seller format: uuid</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_5"><code>inline_response_200_5</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Title for the posting </div>
+<div class="param">posting_description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description for the posting </div>
+<div class="param">posting_category </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Category of the item </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Books</div><div class="param-enum">Games</div><div class="param-enum">Electronics</div><div class="param-enum">Home</div><div class="param-enum">Clothes</div><div class="param-enum">Art</div><div class="param-enum">Jewelry</div>
+<div class="param">posting_location </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> localization of the item </div>
+<div class="param">posting_price </div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> Asking price by the seller for the item </div>
+<div class="param">posting_date </div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> Post date of the posting format: date-time</div>
+<div class="param">posting_delivery_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Delivery type for the item </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Shipping</div><div class="param-enum">PickUp</div>
+<div class="param">posting_images </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Array of string which contains the path of the images </div>
+<div class="param">seller_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the seller </div>
+<div class="param">seller_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email of the seller format: email</div>
+<div class="param">seller_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> Identifier of the seller format: uuid</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_6"><code>inline_response_200_6</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Title of the posting </div>
+<div class="param">posting_description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Descriprion of the posting </div>
+<div class="param">posting_category </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Category of the item </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Books</div><div class="param-enum">Electronics</div><div class="param-enum">Clothes</div><div class="param-enum">Home</div><div class="param-enum">Games</div><div class="param-enum">Art</div><div class="param-enum">Jewelry</div>
+<div class="param">posting_location </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Location of the item </div>
+<div class="param">posting_price </div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> Asking price for the item </div>
+<div class="param">posting_delivery_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Posting delivery type </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Shipping</div><div class="param-enum">PickUp</div>
+<div class="param">posting_images </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Pictures of the item </div>
+<div class="param">seller_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Full name of the seller </div>
+<div class="param">seller_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email of the seller format: email</div>
+<div class="param">seller_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> Id of the seller format: uuid</div>
+<div class="param">posting_date (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> Date of the creation of the post format: date-time</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_7"><code>inline_response_200_7</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Title of the posting </div>
+<div class="param">posting_description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description of the posting </div>
+<div class="param">posting_category </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Category of the posting </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Clothes</div><div class="param-enum">Home</div><div class="param-enum">Electronics</div><div class="param-enum">Games</div><div class="param-enum">Art</div><div class="param-enum">Jewelry</div><div class="param-enum">Books</div>
+<div class="param">posting_location </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Location of the item </div>
+<div class="param">posting_price </div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> Asking price by the seller </div>
+<div class="param">posting_delivery_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Delivery type </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">PickUp</div><div class="param-enum">Shipping</div>
+<div class="param">posting_images </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Pictures of the item </div>
+<div class="param">seller_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Full name of the seller </div>
+<div class="param">seller_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email address of the seller format: email</div>
+<div class="param">seller_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> Id of the seller format: uuid</div>
+<div class="param">posting_date (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> Date of the creation of the posting format: date-time</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_8"><code>inline_response_200_8</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">posting_description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">posting_category </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Home</div><div class="param-enum">Clothes</div><div class="param-enum">Jewelry</div><div class="param-enum">Art</div><div class="param-enum">Games</div><div class="param-enum">Books</div><div class="param-enum">Electronics</div>
+<div class="param">posting_location </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">posting_price </div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span>  </div>
+<div class="param">posting_delivery_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">Shipping</div><div class="param-enum">PickUp</div>
+<div class="param">posting_images </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+<div class="param">seller_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">seller_email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  format: email</div>
+<div class="param">seller_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">posting_date (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_9"><code>inline_response_200_9</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> Id of the posting modified format: uuid</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_201"><code>inline_response_201</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">posting_id </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span> Id of the posting format: uuid</div>
+          <div class="param-desc"><span class="param-type">example: 6a358be8-efae-4104-ad4f-e662786142bb</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
